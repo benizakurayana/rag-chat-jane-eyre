@@ -1,5 +1,5 @@
 ---
-title: Rag Wuthering Heights
+title: RAG Wuthering Heights
 emoji: 📖
 colorFrom: yellow
 colorTo: purple
