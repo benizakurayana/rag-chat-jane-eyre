@@ -10,3 +10,7 @@ pinned: false
 short_description: RAG Wuthering Heights
 ---
 
+
+## Environment variables 
+Save these variables to a .env file locally, or to Hugging Face Spaces > space settings > Variables and secrets:
+- OPENAI_API_KEY
