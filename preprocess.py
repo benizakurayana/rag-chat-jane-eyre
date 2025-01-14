@@ -3,7 +3,6 @@ from dotenv import load_dotenv
 import pickle
 import requests
 from langchain_text_splitters import HTMLSectionSplitter, RecursiveCharacterTextSplitter
-from helpers import roman_to_int
 from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
 
@@ -51,7 +50,27 @@ def split_into_chunks(html_string):
     chapter_splits[-1].page_content = chapter_splits[-1].page_content.split(
         ' *** END OF THE PROJECT GUTENBERG EBOOK WUTHERING HEIGHTS ***')[0].strip()  # Cut off the non chapter content
 
-    # Convert Roman numeral string to an integer (ex. 'Chapter IV' to 4)
+
+    # Helper function to convert Roman numeral string to an integer (ex. 'Chapter IV' to 4)
+    def roman_to_int(s: str) -> int:
+        roman_map = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
+        result = 0
+        prev_value = 0
+
+        for char in reversed(s):  # Iterate from right to left
+            value = roman_map.get(char)
+            if value is None:  # Check for invalid Roman numeral characters
+                return 0  # Or raise an exception: raise ValueError("Invalid Roman numeral character")
+
+            if value < prev_value:
+                result -= value
+            else:
+                result += value
+            prev_value = value
+        return result
+
+
+    # Convert Roman numeral string to an integer in each chapter
     for split in chapter_splits:
         chapter = roman_to_int(split.metadata['chapter'].replace('CHAPTER ', ''))
         split.metadata['chapter'] = chapter
