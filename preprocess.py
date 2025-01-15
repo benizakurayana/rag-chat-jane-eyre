@@ -1,10 +1,14 @@
 import os
-from dotenv import load_dotenv
 import pickle
 import requests
 from langchain_text_splitters import HTMLSectionSplitter, RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
+from utils.env_setup import setup_environment
+
+
+# Set environment variables
+setup_environment()
 
 
 def download_and_load_novel():
@@ -129,10 +133,6 @@ def create_vectorstore():
 
 
 def preprocess():
-    # Load environment variables from .env file if it exists (for local execution.)
-    if os.path.exists('.env'):
-        load_dotenv()
-
     # Load the novel and split into chunks
     if not os.path.exists('splits/paragraph_splits.pkl'):
         novel_string = download_and_load_novel()
