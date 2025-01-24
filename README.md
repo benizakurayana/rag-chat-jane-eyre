@@ -1,5 +1,5 @@
 ---
-title: RAG Wuthering Heights
+title: RAG Chat Jane Eyre
 emoji: 📖
 colorFrom: yellow
 colorTo: purple
@@ -7,7 +7,7 @@ sdk: gradio
 sdk_version: 5.9.1
 app_file: app.py
 pinned: false
-short_description: RAG Wuthering Heights
+short_description: RAG Chat Jane Eyre
 ---
 
 

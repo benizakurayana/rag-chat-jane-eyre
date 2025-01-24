@@ -12,10 +12,10 @@ setup_environment()
 
 
 def download_and_load_novel():
-    filename = 'novel/768-h.htm'
+    filename = 'novel/1260-h.htm'
     # Download
     if not os.path.exists(filename):
-        url = 'https://www.gutenberg.org/files/768/768-h/768-h.htm'
+        url = 'https://www.gutenberg.org/files/1260/1260-h/1260-h.htm'
         response = requests.get(url)
         response.raise_for_status()
 
@@ -50,9 +50,9 @@ def split_into_chunks(html_string):
     chapter_splits = html_splitter.split_text(html_string)
 
     # Filter the actual chapter contents
-    chapter_splits = chapter_splits[3:]  # Chapters start from the 3rd split
+    chapter_splits = chapter_splits[5:]  # Chapters start from the 6th split
     chapter_splits[-1].page_content = chapter_splits[-1].page_content.split(
-        ' *** END OF THE PROJECT GUTENBERG EBOOK WUTHERING HEIGHTS ***')[0].strip()  # Cut off the non chapter content
+        ' *** END OF THE PROJECT GUTENBERG EBOOK 1260 ***')[0].strip()  # Cut off the non chapter content
 
 
     # Helper function to convert Roman numeral string to an integer (ex. 'Chapter IV' to 4)
@@ -76,6 +76,9 @@ def split_into_chunks(html_string):
 
     # Convert Roman numeral string to an integer in each chapter
     for split in chapter_splits:
+        if split.metadata['chapter'] == 'CHAPTER XXXVIII—CONCLUSION':
+            split.metadata['chapter'] = 'CHAPTER XXXVIII'
+
         chapter = roman_to_int(split.metadata['chapter'].replace('CHAPTER ', ''))
         split.metadata['chapter'] = chapter
 

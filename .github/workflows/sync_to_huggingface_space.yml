@@ -15,4 +15,4 @@ jobs:
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push -f https://benizakurayana:$HF_TOKEN@huggingface.co/spaces/benizakurayana/rag-wuthering-heights main
+        run: git push -f https://benizakurayana:$HF_TOKEN@huggingface.co/spaces/benizakurayana/rag-chat-jane-eyre main
