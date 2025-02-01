@@ -9,7 +9,8 @@ from utils.env_setup import setup_environment
 
 # Set environment variables
 setup_environment()
-
+LLM_DEPLOYMENT_NAME = os.getenv('LLM_DEPLOYMENT_NAME')
+EMBEDDING_DEPLOYMENT_NAME = os.getenv('EMBEDDING_DEPLOYMENT_NAME')
 
 def download_and_load_novel():
     filename = 'novel/1260-h.htm'
