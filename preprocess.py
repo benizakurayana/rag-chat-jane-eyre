@@ -119,7 +119,7 @@ def split_into_chunks(html_string):
 
 def create_vectorstore():
     # Set the embedding model
-    embeddings = OpenAIEmbeddings(model="text-embedding-3-large")  # TODO: one of the environment variables
+    embeddings = OpenAIEmbeddings(model=EMBEDDING_DEPLOYMENT_NAME)
 
     persist_directory = 'chroma_db/paragraphs'  # where to save the db
 

@@ -12,8 +12,8 @@ iface = gr.Interface(
     fn=rag_respond_std_iface,
     inputs=gr.Textbox(lines=2, placeholder="Enter your question here..."),
     outputs="text",
-    title="Wuthering Heights RAG Q&A",
-    description="Ask questions about Wuthering Heights (by Emily Brontë, 1847) and get answers based on the novel's content."
+    title="Jane Eyre RAG Chat",
+    description="Ask questions about Jane Eyre (by Charlotte Brontë, 1847) and get answers based on the novel's content."
 )
 
 

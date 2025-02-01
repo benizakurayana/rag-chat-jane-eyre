@@ -1,6 +1,4 @@
 import gradio as gr
-from langchain.chains.question_answering.map_reduce_prompt import messages
-
 from utils.env_setup import setup_environment
 from rag_respond_chat_iface import rag_respond_chat_iface
 

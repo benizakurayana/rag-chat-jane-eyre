@@ -1,3 +1,4 @@
+import os
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_chroma import Chroma
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -11,6 +12,8 @@ from preprocess import preprocess
 
 # Set environment variables
 setup_environment()
+LLM_DEPLOYMENT_NAME = os.getenv('LLM_DEPLOYMENT_NAME')
+EMBEDDING_DEPLOYMENT_NAME = os.getenv('EMBEDDING_DEPLOYMENT_NAME')
 
 # Download the novel, split into chunks and create vectorstore
 preprocess()
@@ -22,7 +25,7 @@ def initialize_components():
     :return: VectorStoreRetriever, ChatOpenAI
     """
     # Set the embedding model
-    embeddings = OpenAIEmbeddings(model="text-embedding-3-large")  # TODO: one of the environment variables
+    embeddings = OpenAIEmbeddings(model=EMBEDDING_DEPLOYMENT_NAME)
 
     # Load the persisted vector store
     persist_directory = 'chroma_db/paragraphs'
@@ -45,7 +48,7 @@ def initialize_components():
     )
 
     # Create chat model
-    chat = ChatOpenAI(model="gpt-4o-mini", temperature=0.2)  # TODO: one of the environment variables
+    chat = ChatOpenAI(model=LLM_DEPLOYMENT_NAME, temperature=0.2)
 
     return retriever, chat
 
