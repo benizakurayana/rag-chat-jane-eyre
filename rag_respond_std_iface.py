@@ -69,6 +69,48 @@ def create_chain(retriever, chat):
     :param chat: ChatOpenAI
     :return: RunnablePassthrough, the retrieval chain
     """
+    """
+    Process:
+    HIGH-LEVEL FLOW:
+    INPUT MESSAGE 
+    → FIRST ASSIGN (parse_retriever_input | retriever) 
+    → SECOND ASSIGN (document_chain)
+    → FINAL OUTPUT
+
+    DETAILED FLOW:
+    1. INITIAL STATE
+        INPUT MESSAGE : {"messages": [HumanMessage(content="who is jane eyre?")]}
+
+    2. FIRST ASSIGN
+       a. parse_retriever_input (Parse Question)
+          INPUT:  {"messages": [HumanMessage("who is jane eyre?")]}
+          OUTPUT: "who is jane eyre?"
+
+       b. retriever (Fetch Documents)
+          INPUT:  "who is jane eyre?"
+          OUTPUT: [Document1, Document2, ...]
+
+       INTERMEDIATE STATE: {
+          "messages": [HumanMessage(content="who is jane eyre?")],
+          "context": [Document1, Document2, ...]
+       }
+
+    3. SECOND ASSIGN
+       document_chain (Generate Answer)
+       INPUT: {
+          "messages": [HumanMessage("who is jane eyre?")],
+          "context": [Document1, Document2, ...]
+       }
+       OUTPUT: "Jane Eyre is..."
+
+    4. FINAL STATE
+        FINAL OUTPUT: {
+            "messages": [...],
+            "context": [Document1, Document2, ...],
+            "answer": "Jane Eyre is..."
+        }
+    """
+
     # Create document chain (a component of the retrieval chain)
     question_answering_prompt = ChatPromptTemplate.from_messages([
         ("system", SYSTEM_TEMPLATE),
@@ -81,11 +123,12 @@ def create_chain(retriever, chat):
     - Concatenates their content into one context
     - "Stuffs" all this context into a single prompt
     Process:
-    - Input Documents → Concatenate (into a string) → Insert into Template → Send to Model → Get Answer
-    - [Doc1, Doc2, Doc3] → "Doc1 + Doc2 + Doc3" → Template with Context → GPT-4 → Response
+    - Input documents → Concatenate (into a string) → Insert into template → Send to chat model → Get answer
+    - [Doc1, Doc2, Doc3] → "Doc1 Doc2 Doc3" → Template with context → GPT-4 → Response
     """
 
-    # Create retrieval chain (parent of document chain. higher-level)
+
+    # Helper function used when creating retrieval chain
     def parse_retriever_input(params: Dict):
         """
         This helper function extracts the actual question text from the input message structure
@@ -95,6 +138,8 @@ def create_chain(retriever, chat):
         """
         return params["messages"][-1].content
 
+
+    # Create retrieval chain (parent of document chain. higher-level)
     retrieval_chain = RunnablePassthrough.assign(  # 1st Assignment
         context=parse_retriever_input | retriever,
     ).assign(                                      # 2nd Assignment
@@ -109,8 +154,8 @@ def create_chain(retriever, chat):
     1st Assignment (context): context=parse_retriever_input | retriever
     - The | operator creates a pipeline:
         1. parse_retriever_input runs first:
-            Input: {"messages": [HumanMessage(content="what is wuthering heights")]}
-            Output: "what is wuthering heights"
+            Input: {"messages": [HumanMessage(content="who is jane eyre?")]}
+            Output: "who is jane eyre?"
         2. retriever runs second:
             Takes the extracted question
             Returns relevant documents
@@ -122,52 +167,10 @@ def create_chain(retriever, chat):
     - Stores result in 'answer' key of output dictionary
     """
 
-    """
-    Process:
-    HIGH-LEVEL FLOW:
-    INPUT MESSAGE 
-    → FIRST ASSIGN (parse_retriever_input | retriever) 
-    → SECOND ASSIGN (document_chain)
-    → FINAL OUTPUT
-
-    DETAILED FLOW:
-    1. INITIAL STATE
-        INPUT MESSAGE : {"messages": [HumanMessage(content="what is wuthering heights")]}
-
-    2. FIRST ASSIGN
-       a. parse_retriever_input (Parse Question)
-          INPUT:  {"messages": [HumanMessage("what is wuthering heights")]}
-          OUTPUT: "what is wuthering heights"
-
-       b. retriever (Fetch Documents)
-          INPUT:  "what is wuthering heights"
-          OUTPUT: [Document1, Document2, ...]
-
-       INTERMEDIATE STATE: {
-          "messages": [HumanMessage(content="what is wuthering heights")],
-          "context": [Document1, Document2, ...]
-       }
-
-    3. SECOND ASSIGN
-       document_chain (Generate Answer)
-       INPUT: {
-          "context": [Document1, Document2],
-          "messages": [HumanMessage("what is wuthering heights")]
-       }
-       OUTPUT: "The Wuthering Heights is..."
-
-    4. FINAL STATE
-        FINAL OUTPUT: {
-            "messages": [...],
-            "context": [Document1, Document2, ...],
-            "answer": "The Wuthering Heights is..."
-        }
-    """
-
     return retrieval_chain
 
 
-# Initialize components and chain at module level
+# Initialize components (retriever and chat model), and chain at module level
 _retriever, _chat = initialize_components()
 _chain = create_chain(_retriever, _chat)
 
@@ -175,11 +178,15 @@ _chain = create_chain(_retriever, _chat)
 def rag_respond_std_iface(question):
     """
     Process a question and return an answer using the retrieval chain
-    :param question: str, the question provided by the user.
-    :return: str, the generated answer extracted from the retrieval chain's response.
+    :param question: str, the question provided by Gradio
+    :return: str, the generated answer extracted from the retrieval chain's response
     """
+    # Transform the question string into Langcahin's message class
+    messages = [HumanMessage(content=question)]
+
+    # Invoke the retrieval chain with the question
     response = _chain.invoke({
-        "messages": [HumanMessage(content=question)],
+        "messages": messages,
     })
 
     return response['answer']
