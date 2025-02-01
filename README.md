@@ -16,7 +16,8 @@ short_description: RAG Chat Jane Eyre
 
 ## View on:
 - [Github](https://github.com/benizakurayana/rag-wuthering-heights)
-- [Hugging Face](https://huggingface.co/spaces/benizakurayana/rag-wuthering-heights)
+- [Hugging Face](https://huggingface.co/spaces/benizakurayana/rag-wuthering-heights) <br>
+If it says "This Space is sleeping due to inactivity," please click the "Restart this space" button
 
 ## Environment variables
 - _(友善提醒：切勿將API key直接寫在程式碼中！)_
@@ -42,19 +43,19 @@ There are two versions of app, and both versions utilize `preprocess.py` to crea
      _(建議可以先理解此版本中的code，再去看Chat版的code)_
 
 2. **Chat**
-  - This is the actual version running on Hugging Face (HF will automatically run the file named `app.py`)
-  - Files
-    - Gradio app: `app.py`
-    - Respond function: `rag_respond_chat_iface.py`
-  - `Gradio Chat Interface` used (since we need chat history)
-  - Continuous conversation, so an additional chain is added to summarize the conversation so far into a query string for the LLM <br> 
-  - For example, conversation history: <br> 
-    `
-    ['what is wuthering heights?', 
-     'wuthering height is...', 
-     'tell me more about it']
-    `
-    If we use the last sentence 'tell me more about it' to query, we won't get the correct results.
+   - This is the actual version running on Hugging Face (HF will automatically run the file named `app.py`)
+   - Files
+     - Gradio app: `app.py`
+     - Respond function: `rag_respond_chat_iface.py`
+   - `Gradio Chat Interface` used (since we need chat history)
+   - Continuous conversation, so an additional chain is added to summarize the conversation so far into a query string for the LLM <br> 
+   - For example, conversation history: <br> 
+     `
+     ['what is wuthering heights?', 
+      'wuthering height is...', 
+      'tell me more about it']
+     ` <br>
+     If we use the last sentence 'tell me more about it' to query, we won't get the correct results.
 
 
 ## App Screenshots
@@ -65,7 +66,7 @@ There are two versions of app, and both versions utilize `preprocess.py` to crea
 ## Langsmith traces
 - Langsmith provides powerful tracing capabilities for Langchain application executions, providing insights into the performance and behavior of the application.
 These traces provide valuable information about the execution flow, latency, and any errors encountered during the app's runtime.
-- In the app screenshot above, there are three `RunnableSequence` instances invoked. You can explore the details of each trace using the following links, 
+- In app screenshot 1 above, there are three `RunnableSequence` instances invoked. You can explore the details of each trace using the following links, 
 for a deeper understanding of how the Langchain flows go in this app:
   - [Trace 1](https://smith.langchain.com/public/19a999bd-376e-4ef7-bb1e-a635c8012c47/r)
   - [Trace 2](https://smith.langchain.com/public/77dc3b1b-50bc-4ff1-b2c0-c45cc551bdfc/r)
