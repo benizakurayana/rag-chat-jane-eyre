@@ -12,7 +12,7 @@ short_description: RAG Chat Jane Eyre
 
 # RAG Chat - Jane Eyre
 - An RAG chatbot that allows users to ask questions about Jane Eyre (by Charlotte Brontë, 1847) and get answers based on the novel's content.
-- Techs used in this project: Chroma, Langchain Gradio, and (optional) Langsmith
+- Techs used in this project: Chroma, Langchain, Gradio, and (optional) Langsmith
 
 ## View on:
 - [Github](https://github.com/benizakurayana/rag-jane-eyre)
