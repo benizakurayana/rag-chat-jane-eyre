@@ -15,7 +15,7 @@ def setup_environment(required_vars=None) -> None:
     
     # Default to checking OPENAI_API_KEY if no variables specified
     if required_vars is None:
-        required_vars = ['OPENAI_API_KEY']
+        required_vars = ['OPENAI_API_KEY', 'EMBEDDING_DEPLOYMENT_NAME', 'LLM_DEPLOYMENT_NAME']
     
     # Check all required variables
     missing_vars = [var for var in required_vars if not os.getenv(var)]
