@@ -15,8 +15,8 @@ short_description: RAG Chat Jane Eyre
 - Techs used in this project: Chroma, Langchain Gradio, and (optional) Langsmith
 
 ## View on:
-- [Github](https://github.com/benizakurayana/rag-wuthering-heights)
-- [Hugging Face](https://huggingface.co/spaces/benizakurayana/rag-wuthering-heights) <br>
+- [Github](https://github.com/benizakurayana/rag-jane-eyre)
+- [Hugging Face](https://huggingface.co/spaces/benizakurayana/rag-jane-eyre) <br>
 If it says "This Space is sleeping due to inactivity," please click the "Restart this space" button
 
 ## Environment variables
