@@ -15,8 +15,8 @@ short_description: RAG Chat Jane Eyre
 - Techs used in this project: Chroma, Langchain, Gradio, and (optional) Langsmith
 
 ## View on:
-- [Github](https://github.com/benizakurayana/rag-jane-eyre)
-- [Hugging Face](https://huggingface.co/spaces/benizakurayana/rag-jane-eyre) <br>
+- [Github](https://github.com/benizakurayana/rag-chat-jane-eyre)
+- [Hugging Face](https://huggingface.co/spaces/benizakurayana/rag-chat-jane-eyre) <br>
 If it says "This Space is sleeping due to inactivity," please click the "Restart this space" button
 
 ## Environment variables
@@ -51,8 +51,8 @@ There are two versions of app, and both versions utilize `preprocess.py` to crea
    - Continuous conversation, so an additional chain is added to summarize the conversation so far into a query string for the LLM <br> 
    - For example, conversation history: <br> 
      `
-     ['what is wuthering heights?', 
-      'wuthering height is...', 
+     ['who is jane eyre?', 
+      'Jane Eyre is...', 
       'tell me more about it']
      ` <br>
      If we use the last sentence 'tell me more about it' to query, we won't get the correct results.
